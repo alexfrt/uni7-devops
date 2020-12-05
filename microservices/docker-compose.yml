@@ -6,21 +6,41 @@ services:
       context: ./backend
     ports:
       - "6000:5000"
+    logging:
+      driver: gelf
+      options:
+        gelf-address: "tcp://localhost:12201"
+        tag: "backend"
   orders:
     container_name: demo_orders
     build:
       context: ./orders
     ports:
       - "6001:5000"
+    logging:
+      driver: gelf
+      options:
+        gelf-address: "tcp://localhost:12201"
+        tag: "orders"
   items:
     container_name: demo_items
     build:
       context: ./items
     ports:
       - "6002:5000"
+    logging:
+      driver: gelf
+      options:
+        gelf-address: "tcp://localhost:12201"
+        tag: "items"
   aggregate:
     container_name: demo_aggregate
     build:
       context: ./aggregate
     ports:
       - "6003:5000"
+    logging:
+      driver: gelf
+      options:
+        gelf-address: "tcp://localhost:12201"
+        tag: "aggregate"
