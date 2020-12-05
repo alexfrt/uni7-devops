@@ -1,0 +1,16 @@
+version: "3.3"
+
+services:
+  redis:
+    image: "redis:alpine"
+  app:
+    build: ./app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    logging:
+      driver: gelf
+      options:
+        gelf-address: "tcp://localhost:12201"
+        tag: "app"
