@@ -1,0 +1,6 @@
+scrape_configs:
+- job_name: backend
+  scrape_interval: 5s
+  static_configs:
+  - targets:
+    - demo_backend:8000

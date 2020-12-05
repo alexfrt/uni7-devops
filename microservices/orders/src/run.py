@@ -2,6 +2,7 @@ from faker import Faker
 from flask import Flask, jsonify, request
 import json_logging, logging, sys
 import random
+import time
 
 
 app = Flask(__name__)
@@ -17,18 +18,21 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 
 @app.route('/allOrders', methods=['GET'])
 def all_orders():
+    time.sleep(random.randint(0, 10))
     logger.info("all_orders()")
     return jsonify(data), 200
 
 
 @app.route('/order/<int:num>', methods=['GET'])
 def get_order(num):
+    time.sleep(random.randint(0, 10))
     logger.info("get_order()")
     return jsonify(data[num]), 200
 
 
 @app.route('/custSearch', methods=['POST'])
 def cust_search():
+    time.sleep(random.randint(0, 10))
     logger.info("cust_search()")
     json = request.get_json()
     name = json.get('name', '')

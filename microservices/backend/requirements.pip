@@ -2,3 +2,4 @@ Flask
 requests
 json-logging
 faker
+prometheus_client
