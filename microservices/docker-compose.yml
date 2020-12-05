@@ -1,0 +1,26 @@
+version: "3.3"
+services:
+  backend:
+    container_name: demo_backend
+    build:
+      context: ./backend
+    ports:
+      - "6000:5000"
+  orders:
+    container_name: demo_orders
+    build:
+      context: ./orders
+    ports:
+      - "6001:5000"
+  items:
+    container_name: demo_items
+    build:
+      context: ./items
+    ports:
+      - "6002:5000"
+  aggregate:
+    container_name: demo_aggregate
+    build:
+      context: ./aggregate
+    ports:
+      - "6003:5000"
