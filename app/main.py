@@ -1,34 +1,43 @@
+import logging
+import sys
+from random import gammavariate
+from time import sleep
+
+import json_logging
+import prometheus_client
 import redis
-from flask import Flask, jsonify
-import json_logging, logging, sys
+from flask import Flask, Response, jsonify
+
+from instrumentation import logging, prometheus
 
 app = Flask(__name__)
+logging.setup_logger(app)
+prometheus.setup_metrics(app)
 redis = redis.Redis(host='redis', port=6379, db=0)
 
-json_logging.init_flask(enable_json=True)
-json_logging.init_request_instrument(app)
-logger = logging.getLogger("test-logger")
-logger.setLevel(logging.DEBUG)
-logger.addHandler(logging.StreamHandler(sys.stdout))
 
 @app.route('/')
 def hello_world():
-    logger.info('hi there')
-    return jsonify('Hello, World!')
+    sleep(gammavariate(1.5, 2))
+    return jsonify('OK')
+
 
 @app.route('/visitor')
 def visitor():
     redis.incr('visitor')
-    visitor_num = redis.get('visitor').decode("utf-8")
-    logger.info(f'{visitor_num} visitor entered successfully')
-    return jsonify(f'{visitor_num} visitor entered successfully')
+    return {'visitor': redis.get('visitor').decode("utf-8")}
+
 
 @app.route('/visitor/reset')
 def reset_visitor():
     redis.set('visitor', 0)
-    visitor_num = redis.get('visitor').decode("utf-8")
-    logger.info(f'{visitor_num} reseted successfully')
-    return jsonify(f'{visitor_num} reseted successfully')
+    return {'visitor': redis.get('visitor').decode("utf-8")}
+
+
+@app.route('/metrics')
+def metrics():
+    return Response(prometheus_client.generate_latest(), mimetype=str('text/plain; version=0.0.4; charset=utf-8'))
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000, debug=False)
