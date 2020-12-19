@@ -6,7 +6,9 @@
 
 - Incremente o app/docker-compose.yml com o que for necessário para os sistemas de monitoramento funcionarem.
 
-- Configure Dashboards para visualizar as todas informações relevantes expostas, tanto no ELK quanto no Grafana.
+- Avalie que métricas são relevantes e quais mais convergem com os 4 sinais de ouro.
+
+- Configure Dashboards para visualizar as todas informações relevantes expostas, no ELK e/ou Grafana, como achar melhor.
 
 - Entregue os print screens dos dashboards construídos diretamente nos sistemas.
 
